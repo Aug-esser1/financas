@@ -591,9 +591,10 @@ async function fazerCadastro() {
     }
 
     const okEl = document.getElementById('reg-ok');
-    okEl.textContent = '✓ Conta criada! Verifique seu e-mail para confirmar, depois entre.';
+    okEl.textContent = '✓ Conta criada com sucesso! Entrando...';
     okEl.className = 'auth-ok show';
-    setTimeout(() => switchTab('login'), 3000);
+    if (data.user) { currentUser = data.user; setTimeout(() => entrarNoApp(), 1000); }
+    else setTimeout(() => switchTab('login'), 2000);
   } catch(e) {
     const msg = e.message?.includes('already registered') ? 'E-mail já cadastrado.' : (e.message || 'Erro ao criar conta');
     setAuthErr('reg-err', msg);
@@ -681,8 +682,9 @@ function setConn(ok, txt) {
 // ── LOAD DATA ─────────────────────────────────────────────
 async function carregarDados() {
   try {
+    if (!currentUser) return;
     const mes = document.getElementById('mes-sel').value;
-    let q = db.from('transactions').select('*').order('date',{ascending:false}).order('created_at',{ascending:false});
+    let q = db.from('transactions').select('*').eq('user_id', currentUser.id).order('date',{ascending:false}).order('created_at',{ascending:false});
     if (mes !== 'all') {
       const [y,m] = mes.split('-');
       const ini = `${y}-${m}-01`;
@@ -880,7 +882,7 @@ async function salvar() {
     const { error } = await db.from('transactions').insert([{
       description: desc, amount: val, type: tipo, date: data,
       category: cat, payment_method: pag, is_fixed: fixo,
-      notes: obs||null, source: 'manual'
+      notes: obs||null, source: 'manual', user_id: currentUser.id
     }]);
     if (error) throw error;
     fecharModal();
@@ -903,7 +905,7 @@ function resetarForm() {
 
 async function deletar(id) {
   if (!confirm('Excluir esta transação?')) return;
-  const { error } = await db.from('transactions').delete().eq('id',id);
+  const { error } = await db.from('transactions').delete().eq('id',id).eq('user_id', currentUser.id);
   if (error) { toast('Erro ao excluir','er'); return; }
   toast('Excluída!','ok');
   await carregarDados();
