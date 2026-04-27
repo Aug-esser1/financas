@@ -550,6 +550,7 @@ function switchTab(tab) {
 
 function mascaraWpp(el) {
   let v = el.value.replace(/\D/g,'');
+  if (v.startsWith('55')) v = v.slice(2);
   if (v.length > 11) v = v.slice(0,11);
   if (v.length > 7) v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
   else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
@@ -575,7 +576,7 @@ async function fazerCadastro() {
 
   if (!email) { setAuthErr('reg-err','Informe o e-mail'); return; }
   if (senha.length < 6) { setAuthErr('reg-err','Senha deve ter ao menos 6 caracteres'); return; }
-  if (!wpp || wpp.replace(/\D/g,'').length < 10) { setAuthErr('reg-err','Informe um WhatsApp válido'); return; }
+  if (!wpp || wpp.replace(/\D/g,'').length < 10) { setAuthErr('reg-err','Informe um WhatsApp válido com DDD'); return; }
 
   const btn = document.getElementById('btn-register');
   btn.disabled = true; btn.textContent = 'Criando conta...';
@@ -584,10 +585,12 @@ async function fazerCadastro() {
     const { data, error } = await db.auth.signUp({ email, password: senha });
     if (error) throw error;
 
-    // Salvar WhatsApp na tabela profiles
+    // Salvar WhatsApp na tabela profiles — sempre com 55 na frente
     const uid = data.user?.id;
+    const wppNumeros = wpp.replace(/\D/g,'');
+    const wppFinal = '55' + wppNumeros;
     if (uid) {
-      await db.from('profiles').upsert({ id: uid, email, whatsapp: wpp.replace(/\D/g,'') });
+      await db.from('profiles').upsert({ id: uid, email, whatsapp: wppFinal });
     }
 
     const okEl = document.getElementById('reg-ok');
