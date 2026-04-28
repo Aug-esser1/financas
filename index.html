@@ -617,7 +617,7 @@ async function fazerCadastro() {
     // Salvar WhatsApp na tabela profiles — sempre com 55 na frente
     const uid = data.user?.id;
     const wppNumeros = wpp.replace(/\D/g,'');
-    const wppFinal = '55' + wppNumeros;
+    const wppFinal = wppNumeros.startsWith('55') ? wppNumeros : '55' + wppNumeros;
     if (uid) {
       await db.from('profiles').upsert({ id: uid, email, whatsapp: wppFinal });
       // Tentar salvar LID automaticamente (sem bloquear)
