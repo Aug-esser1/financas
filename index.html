@@ -568,6 +568,35 @@ function clearAuthMsg(errId, okId) {
   if (okId) document.getElementById(okId).className = 'auth-ok';
 }
 
+// ── SALVAR LID AUTOMATICAMENTE ────────────────────────────
+async function salvarLIDAutomatico(userId, whatsappNumero) {
+  // whatsappNumero já deve estar no formato 5511999999999
+  try {
+    // Buscar contato na Evolution para pegar o LID
+    const resp = await fetch('https://evolution.automacaopme.com.br/chat/findContacts/N8N_esser', {
+      method: 'POST',
+      headers: { 'apikey': 'ze03b4oohp95e9qc9l30g2', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ where: { remoteJid: whatsappNumero + '@s.whatsapp.net' } })
+    });
+    const contacts = await resp.json();
+    const arr = Array.isArray(contacts) ? contacts : [];
+    if (arr.length > 0) {
+      const jid = arr[0]?.id || arr[0]?.jid || '';
+      if (jid.endsWith('@lid')) {
+        const lidValue = jid.replace('@lid', '');
+        // Verificar se já tem lid salvo
+        const { data: perfil } = await db.from('profiles').select('lid').eq('id', userId).single();
+        if (!perfil?.lid) {
+          await db.from('profiles').update({ lid: lidValue }).eq('id', userId);
+        }
+      }
+    }
+  } catch(e) {
+    // Silencioso — não bloqueia o login/cadastro
+    console.log('LID não encontrado (normal se pessoa ainda não conversou com o bot):', e.message);
+  }
+}
+
 async function fazerCadastro() {
   const email = document.getElementById('reg-email').value.trim();
   const senha = document.getElementById('reg-senha').value;
@@ -591,6 +620,8 @@ async function fazerCadastro() {
     const wppFinal = '55' + wppNumeros;
     if (uid) {
       await db.from('profiles').upsert({ id: uid, email, whatsapp: wppFinal });
+      // Tentar salvar LID automaticamente (sem bloquear)
+      salvarLIDAutomatico(uid, wppFinal);
     }
 
     const okEl = document.getElementById('reg-ok');
@@ -621,6 +652,13 @@ async function fazerLogin() {
     const { data, error } = await db.auth.signInWithPassword({ email, password: senha });
     if (error) throw error;
     currentUser = data.user;
+
+    // Tentar salvar LID automaticamente no login (sem bloquear)
+    const { data: perfil } = await db.from('profiles').select('id, whatsapp, lid').eq('id', currentUser.id).single();
+    if (perfil?.whatsapp && !perfil?.lid) {
+      salvarLIDAutomatico(perfil.id, perfil.whatsapp);
+    }
+
     entrarNoApp();
   } catch(e) {
     const msg = e.message?.includes('Invalid login') ? 'E-mail ou senha incorretos.' : (e.message || 'Erro ao entrar');
