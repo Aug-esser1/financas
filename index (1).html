@@ -1098,6 +1098,264 @@
       color: var(--t3)
     }
 
+    /* ── CASAL TAB STYLES ──────────────────────────────────── */
+    .couple-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 540px;
+      margin: 0 auto;
+      padding: 4px 0 24px
+    }
+
+    .couple-status-card {
+      background: var(--s2);
+      border: 1px solid var(--b1);
+      border-radius: 14px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      gap: 16px
+    }
+
+    .couple-status-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0
+    }
+
+    .couple-status-icon.solo { background: rgba(136,136,170,.12) }
+    .couple-status-icon.linked { background: rgba(31,217,122,.12) }
+
+    .couple-status-info { flex: 1 }
+    .couple-status-title { font-size: 14px; font-weight: 600; margin-bottom: 3px }
+    .couple-status-sub { font-size: 12px; color: var(--t2) }
+
+    .couple-badge {
+      background: rgba(31,217,122,.12);
+      border: 1px solid rgba(31,217,122,.25);
+      color: var(--green);
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: var(--m)
+    }
+
+    .couple-section {
+      background: var(--s2);
+      border: 1px solid var(--b1);
+      border-radius: 14px;
+      padding: 20px 22px
+    }
+
+    .couple-section-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--t3);
+      margin-bottom: 14px
+    }
+
+    .couple-code-box {
+      background: var(--s3);
+      border: 1px solid var(--b2);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px
+    }
+
+    .couple-code-val {
+      font-family: var(--m);
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      color: var(--accent)
+    }
+
+    .couple-code-copy {
+      background: rgba(124,106,255,.15);
+      border: 1px solid rgba(124,106,255,.3);
+      color: var(--accent);
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--f);
+      cursor: pointer;
+      transition: all .15s;
+      white-space: nowrap
+    }
+
+    .couple-code-copy:hover { background: rgba(124,106,255,.28) }
+
+    .couple-hint {
+      font-size: 12px;
+      color: var(--t2);
+      line-height: 1.6
+    }
+
+    .couple-input-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px
+    }
+
+    .couple-input {
+      flex: 1;
+      background: var(--s3);
+      border: 1px solid var(--b2);
+      border-radius: 9px;
+      padding: 10px 14px;
+      font-family: var(--m);
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      color: var(--t1);
+      text-transform: uppercase;
+      outline: none;
+      transition: border-color .15s
+    }
+
+    .couple-input:focus { border-color: var(--accent) }
+    .couple-input::placeholder { font-size: 13px; letter-spacing: 0; font-family: var(--f); font-weight: 400; opacity: .5 }
+
+    .couple-btn {
+      background: var(--accent);
+      border: none;
+      border-radius: 9px;
+      padding: 10px 18px;
+      color: #fff;
+      font-family: var(--f);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s;
+      white-space: nowrap
+    }
+
+    .couple-btn:hover { background: #6b58ff }
+    .couple-btn:disabled { opacity: .5; cursor: not-allowed }
+
+    .couple-btn-danger {
+      background: transparent;
+      border: 1px solid rgba(255,68,102,.3);
+      border-radius: 9px;
+      padding: 9px 16px;
+      color: var(--red);
+      font-family: var(--f);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+      width: 100%;
+      margin-top: 10px
+    }
+
+    .couple-btn-danger:hover { background: rgba(255,68,102,.08); border-color: var(--red) }
+
+    .couple-members {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 2px
+    }
+
+    .couple-member {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--s3);
+      border-radius: 9px;
+      padding: 10px 14px
+    }
+
+    .couple-member-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(124,106,255,.2);
+      border: 1px solid rgba(124,106,255,.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      flex-shrink: 0
+    }
+
+    .couple-member-info { flex: 1 }
+    .couple-member-email { font-size: 13px; font-weight: 500 }
+    .couple-member-wpp { font-size: 11px; color: var(--t2); font-family: var(--m) }
+
+    .couple-member-you {
+      font-size: 10px;
+      font-weight: 700;
+      background: rgba(124,106,255,.15);
+      color: var(--accent);
+      border-radius: 4px;
+      padding: 2px 7px
+    }
+
+    .couple-err {
+      background: rgba(255,68,102,.1);
+      border: 1px solid rgba(255,68,102,.3);
+      border-radius: 7px;
+      padding: 9px 12px;
+      font-size: 12.5px;
+      color: var(--red);
+      margin-top: 8px;
+      display: none
+    }
+
+    .couple-err.show { display: block }
+
+    .couple-ok {
+      background: rgba(31,217,122,.1);
+      border: 1px solid rgba(31,217,122,.3);
+      border-radius: 7px;
+      padding: 9px 12px;
+      font-size: 12.5px;
+      color: var(--green);
+      margin-top: 8px;
+      display: none
+    }
+
+    .couple-ok.show { display: block }
+
+    .shared-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--green);
+      padding: 3px 9px;
+      background: rgba(31,217,122,.1);
+      border: 1px solid rgba(31,217,122,.2);
+      border-radius: 20px
+    }
+
+    .shared-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 5px var(--green)
+    }
+
+    /* ── AUTH BUTTONS & BADGES (restaurado) ──────────────── */
     .auth-btn {
       width: 100%;
       padding: 11px;
@@ -1116,19 +1374,12 @@
       justify-content: center;
       gap: 8px
     }
-
-    .auth-btn:hover {
-      background: #6b58ff
-    }
-
-    .auth-btn:disabled {
-      opacity: .55;
-      cursor: not-allowed
-    }
+    .auth-btn:hover { background: #6b58ff }
+    .auth-btn:disabled { opacity: .55; cursor: not-allowed }
 
     .auth-err {
-      background: rgba(255, 68, 102, .1);
-      border: 1px solid rgba(255, 68, 102, .3);
+      background: rgba(255,68,102,.1);
+      border: 1px solid rgba(255,68,102,.3);
       border-radius: 7px;
       padding: 9px 12px;
       font-size: 12.5px;
@@ -1136,14 +1387,11 @@
       margin-top: 10px;
       display: none
     }
-
-    .auth-err.show {
-      display: block
-    }
+    .auth-err.show { display: block }
 
     .auth-ok {
-      background: rgba(31, 217, 122, .1);
-      border: 1px solid rgba(31, 217, 122, .3);
+      background: rgba(31,217,122,.1);
+      border: 1px solid rgba(31,217,122,.3);
       border-radius: 7px;
       padding: 9px 12px;
       font-size: 12.5px;
@@ -1151,22 +1399,10 @@
       margin-top: 10px;
       display: none
     }
+    .auth-ok.show { display: block }
 
-    .auth-ok.show {
-      display: block
-    }
-
-    .auth-divider {
-      height: 1px;
-      background: var(--b1);
-      margin: 18px 0
-    }
-
-    .auth-hint {
-      font-size: 11.5px;
-      color: var(--t3);
-      text-align: center
-    }
+    .auth-divider { height: 1px; background: var(--b1); margin: 18px 0 }
+    .auth-hint { font-size: 11.5px; color: var(--t3); text-align: center }
 
     .user-badge {
       display: flex;
@@ -1180,7 +1416,6 @@
       color: var(--t2);
       cursor: default
     }
-
     .user-badge-dot {
       width: 6px;
       height: 6px;
@@ -1201,7 +1436,6 @@
       cursor: pointer;
       transition: all .12s
     }
-
     .logout-btn:hover {
       background: var(--s3);
       color: var(--red);
@@ -1298,6 +1532,14 @@
         </svg>
         Transações
       </button>
+      <button class="nav-item" id="nav-casal" onclick="goTo('casal')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+        Casal
+        <span id="casal-badge" style="display:none;margin-left:auto;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green)"></span>
+      </button>
       <div class="nav-label">Ações</div>
       <button class="nav-item" onclick="abrirModal()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1320,10 +1562,13 @@
     <div class="topbar">
       <div class="topbar-title" id="page-title">Dashboard</div>
       <div class="topbar-right">
+        <div id="shared-pill" style="display:none" class="shared-indicator">
+          <div class="shared-dot"></div>
+          Orçamento compartilhado
+        </div>
         <div class="user-badge" id="user-badge" style="display:none">
           <div class="user-badge-dot"></div>
-          <span id="user-email-txt"
-            style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+          <span id="user-email-txt" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
         </div>
         <select class="sel" id="mes-sel" onchange="carregarDados()">
           <option value="all">Todos os meses</option>
@@ -1401,8 +1646,7 @@
               </div>
             </div>
             <div class="chart" id="chart-area">
-              <div
-                style="width:100%;display:flex;align-items:center;justify-content:center;color:var(--t3);font-size:12px">
+              <div style="width:100%;display:flex;align-items:center;justify-content:center;color:var(--t3);font-size:12px">
                 <div class="spin"></div>
               </div>
             </div>
@@ -1416,7 +1660,6 @@
           </div>
         </div>
 
-        <!-- RECENT TABLE -->
         <div class="tpanel">
           <div class="ttoolbar">
             <div class="filters" id="filters-dash">
@@ -1431,11 +1674,7 @@
             <table>
               <thead>
                 <tr>
-                  <th>Descrição</th>
-                  <th>Tipo</th>
-                  <th>Categoria</th>
-                  <th>Pagamento</th>
-                  <th>Data</th>
+                  <th>Descrição</th><th>Tipo</th><th>Categoria</th><th>Pagamento</th><th>Data</th>
                   <th style="text-align:right">Valor</th>
                 </tr>
               </thead>
@@ -1468,13 +1707,8 @@
             <table>
               <thead>
                 <tr>
-                  <th>Descrição</th>
-                  <th>Tipo</th>
-                  <th>Categoria</th>
-                  <th>Pagamento</th>
-                  <th>Data</th>
-                  <th style="text-align:right">Valor</th>
-                  <th></th>
+                  <th>Descrição</th><th>Tipo</th><th>Categoria</th><th>Pagamento</th><th>Data</th>
+                  <th style="text-align:right">Valor</th><th></th>
                 </tr>
               </thead>
               <tbody id="tbody-tx"></tbody>
@@ -1484,6 +1718,57 @@
             <span id="pager-info2">0 transações</span>
             <div class="pager-btns" id="pager-btns2"></div>
           </div>
+        </div>
+      </div>
+
+      <!-- CASAL -->
+      <div class="view" id="view-casal">
+        <div class="couple-panel">
+
+          <!-- Status atual -->
+          <div class="couple-status-card" id="couple-status-card">
+            <div class="couple-status-icon solo" id="couple-status-icon">👤</div>
+            <div class="couple-status-info">
+              <div class="couple-status-title" id="couple-status-title">Conta individual</div>
+              <div class="couple-status-sub" id="couple-status-sub">Vincule um parceiro para compartilhar o orçamento</div>
+            </div>
+            <div id="couple-status-badge" style="display:none" class="couple-badge">Ativo</div>
+          </div>
+
+          <!-- Membros (só aparece quando vinculado) -->
+          <div class="couple-section" id="couple-members-section" style="display:none">
+            <div class="couple-section-title">Membros do casal</div>
+            <div class="couple-members" id="couple-members-list"></div>
+            <button class="couple-btn-danger" onclick="desvincularCasal()">
+              Desvincular casal
+            </button>
+          </div>
+
+          <!-- Meu código (sempre visível) -->
+          <div class="couple-section">
+            <div class="couple-section-title">Meu código de vínculo</div>
+            <div class="couple-code-box">
+              <div class="couple-code-val" id="my-couple-code">···</div>
+              <button class="couple-code-copy" onclick="copiarCodigo()">Copiar</button>
+            </div>
+            <div class="couple-hint">
+              Compartilhe este código com seu parceiro(a). Ele(a) cola o código abaixo e vocês passam a compartilhar o mesmo orçamento automaticamente — incluindo lançamentos pelo WhatsApp.
+            </div>
+          </div>
+
+          <!-- Vincular com código -->
+          <div class="couple-section" id="couple-link-section">
+            <div class="couple-section-title">Vincular com parceiro(a)</div>
+            <div class="couple-hint" style="margin-bottom:12px">Cole o código que seu parceiro(a) compartilhou com você:</div>
+            <div class="couple-input-row">
+              <input class="couple-input" id="couple-code-input" placeholder="Cole o código aqui" maxlength="8"
+                oninput="this.value=this.value.toUpperCase()">
+              <button class="couple-btn" id="btn-vincular" onclick="vincularCasal()">Vincular</button>
+            </div>
+            <div class="couple-err" id="couple-err"></div>
+            <div class="couple-ok" id="couple-ok"></div>
+          </div>
+
         </div>
       </div>
 
@@ -1569,6 +1854,8 @@
     // ── STATE ─────────────────────────────────────────────────
     let todos = [], filtrados = [], filtroAtual = 'all', pagAtual = 1, contexto = 'dash';
     let currentUser = null;
+    let householdId = null;   // null = conta individual, uuid = orçamento compartilhado
+    let myProfileId = null;
     const POR_PAG = 15;
 
     // ── LABELS ────────────────────────────────────────────────
@@ -1576,6 +1863,16 @@
     const PAG = { credit: 'Crédito', debit: 'Débito', pix: 'PIX', cash: 'Dinheiro', transfer: 'Transferência', other: 'Outro' };
     const PAG_B = { credit: 'b-cr', debit: 'b-db', pix: 'b-px', cash: 'b-ot', transfer: 'b-ot', other: 'b-ot' };
     const CORES = ['#ff4466', '#4d8fff', '#f5c842', '#1fd97a', '#a855f7', '#ff9f43'];
+
+    // ── GERAR CÓDIGO LEGÍVEL (6 chars alfanumérico) ───────────
+    function gerarCodigo() {
+      // Usa os primeiros 6 chars do UUID do usuário em base36 maiúsculo
+      // garante que cada pessoa sempre tenha o mesmo código
+      if (!currentUser?.id) return '------';
+      const hex = currentUser.id.replace(/-/g, '');
+      const num = BigInt('0x' + hex.slice(0, 12));
+      return num.toString(36).toUpperCase().slice(0, 6).padStart(6, '0');
+    }
 
     // ── AUTH HELPERS ──────────────────────────────────────────
     function switchTab(tab) {
@@ -1607,9 +1904,7 @@
 
     // ── SALVAR LID AUTOMATICAMENTE ────────────────────────────
     async function salvarLIDAutomatico(userId, whatsappNumero) {
-      // whatsappNumero já deve estar no formato 5511999999999
       try {
-        // Buscar contato na Evolution para pegar o LID
         const resp = await fetch('https://evolution.automacaopme.com.br/chat/findContacts/N8N_esser', {
           method: 'POST',
           headers: { 'apikey': 'ze03b4oohp95e9qc9l30g2', 'Content-Type': 'application/json' },
@@ -1621,7 +1916,6 @@
           const jid = arr[0]?.id || arr[0]?.jid || '';
           if (jid.endsWith('@lid')) {
             const lidValue = jid.replace('@lid', '');
-            // Verificar se já tem lid salvo
             const { data: perfil } = await db.from('profiles').select('lid').eq('id', userId).single();
             if (!perfil?.lid) {
               await db.from('profiles').update({ lid: lidValue }).eq('id', userId);
@@ -1629,8 +1923,7 @@
           }
         }
       } catch (e) {
-        // Silencioso — não bloqueia o login/cadastro
-        console.log('LID não encontrado (normal se pessoa ainda não conversou com o bot):', e.message);
+        console.log('LID não encontrado:', e.message);
       }
     }
 
@@ -1651,13 +1944,12 @@
         const { data, error } = await db.auth.signUp({ email, password: senha });
         if (error) throw error;
 
-        // Salvar WhatsApp na tabela profiles — sempre com 55 na frente
         const uid = data.user?.id;
         const wppNumeros = wpp.replace(/\D/g, '');
         const wppFinal = wppNumeros.startsWith('55') ? wppNumeros : '55' + wppNumeros;
         if (uid) {
-          await db.from('profiles').upsert({ id: uid, email, whatsapp: wppFinal });
-          // Tentar salvar LID automaticamente (sem bloquear)
+          // Cria perfil com household_id = próprio id (será substituído ao vincular casal)
+          await db.from('profiles').upsert({ id: uid, email, whatsapp: wppFinal, household_id: uid });
           salvarLIDAutomatico(uid, wppFinal);
         }
 
@@ -1690,8 +1982,17 @@
         if (error) throw error;
         currentUser = data.user;
 
-        // Tentar salvar LID automaticamente no login (sem bloquear)
-        const { data: perfil } = await db.from('profiles').select('id, whatsapp, lid').eq('id', currentUser.id).single();
+        const { data: perfil } = await db.from('profiles').select('id, whatsapp, lid, household_id').eq('id', currentUser.id).single();
+        myProfileId = perfil?.id || currentUser.id;
+
+        // Garante household_id existe (migração de contas antigas)
+        if (!perfil?.household_id) {
+          await db.from('profiles').update({ household_id: currentUser.id }).eq('id', currentUser.id);
+          householdId = currentUser.id;
+        } else {
+          householdId = perfil.household_id;
+        }
+
         if (perfil?.whatsapp && !perfil?.lid) {
           salvarLIDAutomatico(perfil.id, perfil.whatsapp);
         }
@@ -1708,9 +2009,11 @@
 
     async function fazerLogout() {
       await db.auth.signOut();
-      currentUser = null;
+      currentUser = null; householdId = null; myProfileId = null;
       document.getElementById('auth-screen').classList.remove('hidden');
       document.getElementById('user-badge').style.display = 'none';
+      document.getElementById('shared-pill').style.display = 'none';
+      document.getElementById('casal-badge').style.display = 'none';
       document.getElementById('login-email').value = '';
       document.getElementById('login-senha').value = '';
       clearAuthMsg('login-err', null);
@@ -1723,19 +2026,27 @@
       document.getElementById('user-badge').style.display = 'flex';
       checarConexao();
       carregarDados();
+      carregarCasal();
     }
 
     // ── INIT ──────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', async function () {
       document.getElementById('f-data').valueAsDate = new Date();
 
-      // Checar sessão existente
       const { data: { session } } = await db.auth.getSession();
       if (session?.user) {
         currentUser = session.user;
+        // Carregar household_id da sessão existente
+        const { data: perfil } = await db.from('profiles').select('id, household_id').eq('id', currentUser.id).single();
+        myProfileId = perfil?.id || currentUser.id;
+        if (!perfil?.household_id) {
+          await db.from('profiles').update({ household_id: currentUser.id }).eq('id', currentUser.id);
+          householdId = currentUser.id;
+        } else {
+          householdId = perfil.household_id;
+        }
         entrarNoApp();
       }
-      // Se não tem sessão, tela de auth já está visível
     });
 
     async function checarConexao() {
@@ -1757,12 +2068,24 @@
       document.getElementById('conn-txt').textContent = txt;
     }
 
-    // ── LOAD DATA ─────────────────────────────────────────────
+    // ── LOAD DATA (usa household_id quando disponível) ────────
     async function carregarDados() {
       try {
         if (!currentUser) return;
         const mes = document.getElementById('mes-sel').value;
-        let q = db.from('transactions').select('*').eq('user_id', currentUser.id).order('date', { ascending: false }).order('created_at', { ascending: false });
+        const hid = householdId || currentUser.id;
+
+        // Se há household compartilhado (diferente do próprio id), busca por household_id
+        // Caso contrário busca por user_id (compatibilidade com registros antigos)
+        const isShared = hid !== currentUser.id;
+        let q;
+        if (isShared) {
+          q = db.from('transactions').select('*').eq('household_id', hid).order('date', { ascending: false }).order('created_at', { ascending: false });
+        } else {
+          // Busca tanto por user_id quanto por household_id = próprio id
+          q = db.from('transactions').select('*').or(`user_id.eq.${currentUser.id},household_id.eq.${currentUser.id}`).order('date', { ascending: false }).order('created_at', { ascending: false });
+        }
+
         if (mes !== 'all') {
           const [y, m] = mes.split('-');
           const ini = `${y}-${m}-01`;
@@ -1780,6 +2103,177 @@
       }
     }
 
+    // ── CASAL ─────────────────────────────────────────────────
+    async function carregarCasal() {
+      if (!currentUser) return;
+
+      // Exibir meu código
+      document.getElementById('my-couple-code').textContent = gerarCodigo();
+
+      // Verificar se estou vinculado a alguém
+      const hid = householdId || currentUser.id;
+      const isLinked = hid !== currentUser.id;
+
+      if (isLinked) {
+        // Buscar membros do casal
+        const { data: membros } = await db.from('profiles').select('id, email, whatsapp').eq('household_id', hid);
+        renderizarMembros(membros || [], hid);
+        atualizarStatusCasal(true);
+      } else {
+        // Verificar se alguém se vinculou a mim (household_id = meu id)
+        const { data: membros } = await db.from('profiles').select('id, email, whatsapp').eq('household_id', currentUser.id);
+        const temParceiro = membros && membros.length > 1;
+        if (temParceiro) {
+          householdId = currentUser.id;
+          renderizarMembros(membros, currentUser.id);
+          atualizarStatusCasal(true);
+        } else {
+          atualizarStatusCasal(false);
+        }
+      }
+    }
+
+    function atualizarStatusCasal(linked) {
+      const icon = document.getElementById('couple-status-icon');
+      const title = document.getElementById('couple-status-title');
+      const sub = document.getElementById('couple-status-sub');
+      const badge = document.getElementById('couple-status-badge');
+      const membersSection = document.getElementById('couple-members-section');
+      const linkSection = document.getElementById('couple-link-section');
+      const sharedPill = document.getElementById('shared-pill');
+      const casalBadge = document.getElementById('casal-badge');
+
+      if (linked) {
+        icon.className = 'couple-status-icon linked';
+        icon.textContent = '💑';
+        title.textContent = 'Casal vinculado';
+        sub.textContent = 'Vocês compartilham o mesmo orçamento';
+        badge.style.display = 'block';
+        membersSection.style.display = 'block';
+        linkSection.style.display = 'none';
+        sharedPill.style.display = 'flex';
+        casalBadge.style.display = 'block';
+      } else {
+        icon.className = 'couple-status-icon solo';
+        icon.textContent = '👤';
+        title.textContent = 'Conta individual';
+        sub.textContent = 'Vincule um parceiro para compartilhar o orçamento';
+        badge.style.display = 'none';
+        membersSection.style.display = 'none';
+        linkSection.style.display = 'block';
+        sharedPill.style.display = 'none';
+        casalBadge.style.display = 'none';
+      }
+    }
+
+    function renderizarMembros(membros, hid) {
+      const list = document.getElementById('couple-members-list');
+      list.innerHTML = membros.map(m => {
+        const isMe = m.id === currentUser.id;
+        const iniciais = (m.email || '?').slice(0, 2).toUpperCase();
+        const wppFmt = m.whatsapp ? m.whatsapp.replace(/^55(\d{2})(\d{4,5})(\d{4})$/, '($1) $2-$3') : '—';
+        return `<div class="couple-member">
+          <div class="couple-member-avatar">${iniciais}</div>
+          <div class="couple-member-info">
+            <div class="couple-member-email">${m.email}</div>
+            <div class="couple-member-wpp">${wppFmt}</div>
+          </div>
+          ${isMe ? '<span class="couple-member-you">Você</span>' : ''}
+        </div>`;
+      }).join('');
+    }
+
+    async function vincularCasal() {
+      const codigo = document.getElementById('couple-code-input').value.trim().toUpperCase();
+      const errEl = document.getElementById('couple-err');
+      const okEl = document.getElementById('couple-ok');
+      errEl.className = 'couple-err';
+      okEl.className = 'couple-ok';
+
+      if (codigo.length < 6) {
+        errEl.textContent = 'O código deve ter 6 caracteres';
+        errEl.className = 'couple-err show'; return;
+      }
+      if (codigo === gerarCodigo()) {
+        errEl.textContent = 'Você não pode se vincular com seu próprio código';
+        errEl.className = 'couple-err show'; return;
+      }
+
+      const btn = document.getElementById('btn-vincular');
+      btn.disabled = true; btn.textContent = 'Vinculando...';
+
+      try {
+        // Buscar o parceiro pelo código (derivado do UUID)
+        // O código é gerado a partir do UUID, então precisamos buscar todos e comparar
+        const { data: todos_profiles } = await db.from('profiles').select('id, email, whatsapp, household_id');
+        const parceiro = (todos_profiles || []).find(p => {
+          if (!p.id) return false;
+          const hex = p.id.replace(/-/g, '');
+          const num = BigInt('0x' + hex.slice(0, 12));
+          const cod = num.toString(36).toUpperCase().slice(0, 6).padStart(6, '0');
+          return cod === codigo;
+        });
+
+        if (!parceiro) {
+          errEl.textContent = 'Código não encontrado. Verifique e tente novamente.';
+          errEl.className = 'couple-err show'; return;
+        }
+
+        // Usar o household_id do parceiro (ou o id dele se ainda não tiver um diferente)
+        const novoHousehold = (parceiro.household_id && parceiro.household_id !== parceiro.id)
+          ? parceiro.household_id
+          : parceiro.id;
+
+        // Atualizar meu perfil com o household_id do parceiro
+        const { error } = await db.from('profiles')
+          .update({ household_id: novoHousehold })
+          .eq('id', currentUser.id);
+
+        if (error) throw error;
+
+        householdId = novoHousehold;
+        okEl.textContent = '✓ Vinculado com sucesso! Agora vocês compartilham o orçamento.';
+        okEl.className = 'couple-ok show';
+        document.getElementById('couple-code-input').value = '';
+
+        setTimeout(async () => {
+          await carregarCasal();
+          await carregarDados();
+        }, 1200);
+
+      } catch (e) {
+        errEl.textContent = 'Erro ao vincular: ' + e.message;
+        errEl.className = 'couple-err show';
+      } finally {
+        btn.disabled = false; btn.textContent = 'Vincular';
+      }
+    }
+
+    async function desvincularCasal() {
+      if (!confirm('Desvincular o casal? Cada um voltará a ver apenas suas próprias transações.')) return;
+
+      try {
+        // Restaura household_id para o próprio id (volta a ser individual)
+        const { error } = await db.from('profiles')
+          .update({ household_id: currentUser.id })
+          .eq('id', currentUser.id);
+        if (error) throw error;
+
+        householdId = currentUser.id;
+        toast('Desvinculado com sucesso', 'ok');
+        await carregarCasal();
+        await carregarDados();
+      } catch (e) {
+        toast('Erro ao desvincular: ' + e.message, 'er');
+      }
+    }
+
+    function copiarCodigo() {
+      const cod = document.getElementById('my-couple-code').textContent;
+      navigator.clipboard.writeText(cod).then(() => toast('Código copiado!', 'ok'));
+    }
+
+    // ── INIT / DADOS / UTILS (igual ao original) ──────────────
     function atualizarTudo() {
       atualizarCards();
       renderizarGrafico();
@@ -1788,7 +2282,6 @@
       renderizarTabela2();
     }
 
-    // ── CARDS ─────────────────────────────────────────────────
     function atualizarCards() {
       const inc = todos.filter(t => t.type === 'income');
       const exp = todos.filter(t => t.type === 'expense');
@@ -1805,7 +2298,6 @@
       document.getElementById('v-fix-c').textContent = `${fix.length} transação${fix.length !== 1 ? 'ões' : ''}`;
     }
 
-    // ── GRÁFICO ───────────────────────────────────────────────
     function renderizarGrafico() {
       const byM = {};
       todos.forEach(t => {
@@ -1828,7 +2320,6 @@
       }).join('');
     }
 
-    // ── CATEGORIAS ────────────────────────────────────────────
     function renderizarCats() {
       const exp = todos.filter(t => t.type === 'expense');
       const cs = {};
@@ -1842,7 +2333,6 @@
       }).join('');
     }
 
-    // ── TABELAS ───────────────────────────────────────────────
     function renderizarTabela() {
       const start = (pagAtual - 1) * POR_PAG;
       const slice = filtrados.slice(start, start + POR_PAG);
@@ -1884,7 +2374,6 @@
       el.innerHTML = Array.from({ length: Math.min(pages, 8) }, (_, i) => `<button class="pager-btn ${i + 1 === pagAtual ? 'on' : ''}" onclick="pagAtual=${i + 1};${cb.name}()">${i + 1}</button>`).join('');
     }
 
-    // ── FILTROS ───────────────────────────────────────────────
     function filtrar(tipo, el, ctx) {
       filtroAtual = tipo;
       contexto = ctx;
@@ -1912,17 +2401,16 @@
     function buscar(v) { aplicarFiltro(v); renderizarTabela(); }
     function buscar2(v) { aplicarFiltro(v); renderizarTabela2(); }
 
-    // ── NAVEGAÇÃO ─────────────────────────────────────────────
     function goTo(view) {
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       document.getElementById('view-' + view).classList.add('active');
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       document.getElementById('nav-' + view).classList.add('active');
-      const titles = { dashboard: 'Dashboard', transactions: 'Transações' };
+      const titles = { dashboard: 'Dashboard', transactions: 'Transações', casal: 'Casal' };
       document.getElementById('page-title').textContent = titles[view] || view;
+      if (view === 'casal') carregarCasal();
     }
 
-    // ── MODAL ─────────────────────────────────────────────────
     function abrirModal() {
       document.getElementById('overlay').classList.add('open');
       document.getElementById('f-desc').focus();
@@ -1956,11 +2444,14 @@
       if (!val || val <= 0) { toast('Valor deve ser maior que zero', 'er'); return; }
       if (!data) { toast('Selecione a data', 'er'); return; }
 
+      const hid = householdId || currentUser.id;
       try {
         const { error } = await db.from('transactions').insert([{
           description: desc, amount: val, type: tipo, date: data,
           category: cat, payment_method: pag, is_fixed: fixo,
-          notes: obs || null, source: 'manual', user_id: currentUser.id
+          notes: obs || null, source: 'manual',
+          user_id: currentUser.id,
+          household_id: hid
         }]);
         if (error) throw error;
         fecharModal();
@@ -1989,7 +2480,6 @@
       await carregarDados();
     }
 
-    // ── UTILS ─────────────────────────────────────────────────
     function fmt(v) {
       return 'R$ ' + (+v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
@@ -2005,5 +2495,4 @@
     }
   </script>
 </body>
-
 </html>
