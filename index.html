@@ -1264,6 +1264,42 @@
 
     .couple-btn-danger:hover { background: rgba(255,68,102,.08); border-color: var(--red) }
 
+    /* ── RESUMO DO CASAL ──────────────────────────────────────── */
+    .couple-summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 4px }
+    .cs-col { background: var(--s2); border: 1px solid var(--b1); border-radius: 12px; overflow: hidden }
+    .cs-col-header { padding: 12px 16px 10px; border-bottom: 1px solid var(--b1); display: flex; align-items: center; gap: 8px }
+    .cs-col-avatar { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0 }
+    .cs-col-avatar.me { background: rgba(124,106,255,.2); border: 1px solid rgba(124,106,255,.35); color: var(--accent) }
+    .cs-col-avatar.partner { background: rgba(77,143,255,.2); border: 1px solid rgba(77,143,255,.35); color: var(--blue) }
+    .cs-col-avatar.joint { background: rgba(31,217,122,.15); border: 1px solid rgba(31,217,122,.3); color: var(--green); font-size: 15px }
+    .cs-col-name { font-size: 12.5px; font-weight: 600; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+    .cs-col-you { font-size: 9.5px; font-weight: 700; background: rgba(124,106,255,.15); color: var(--accent); border-radius: 4px; padding: 2px 6px }
+    .cs-stats { padding: 12px 16px; display: flex; flex-direction: column; gap: 8px }
+    .cs-stat-row { display: flex; align-items: center; justify-content: space-between }
+    .cs-stat-label { font-size: 11px; color: var(--t2) }
+    .cs-stat-val { font-size: 13px; font-weight: 700; font-family: var(--m); font-variant-numeric: tabular-nums }
+    .cs-stat-val.green { color: var(--green) } .cs-stat-val.red { color: var(--red) } .cs-stat-val.neutral { color: var(--t1) }
+    .cs-divider { height: 1px; background: var(--b1); margin: 2px 0 }
+    .cs-joint-row { grid-column: 1 / -1 }
+    .cs-joint-row .cs-col-header { background: rgba(31,217,122,.04) }
+    .cs-joint-stats { padding: 14px 16px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px }
+    .cs-joint-stat { display: flex; flex-direction: column; gap: 3px }
+    .cs-joint-stat-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--t3) }
+    .cs-joint-stat-val { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums }
+    .cs-joint-stat-sub { font-size: 10.5px; color: var(--t3) }
+    .cs-cat-list { display: flex; flex-direction: column; gap: 7px; padding: 0 16px 14px }
+    .cs-cat-item { display: flex; align-items: center; gap: 8px }
+    .cs-cat-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0 }
+    .cs-cat-name { font-size: 11.5px; flex: 1 }
+    .cs-cat-bar-wrap { width: 70px; height: 3px; background: var(--s3); border-radius: 2px; overflow: hidden }
+    .cs-cat-bar-fill { height: 100%; border-radius: 2px; transition: width .4s ease }
+    .cs-cat-val { font-size: 11px; font-family: var(--m); color: var(--t2); white-space: nowrap; min-width: 70px; text-align: right }
+    .cs-tab-row { display: flex; gap: 6px; margin-bottom: 12px }
+    .cs-tab { padding: 5px 14px; border-radius: 20px; font-size: 11.5px; font-weight: 500; border: 1px solid var(--b2); background: transparent; color: var(--t2); cursor: pointer; font-family: var(--f); transition: all .12s }
+    .cs-tab.on { background: var(--s3); color: var(--t1); border-color: var(--b2) }
+    .cs-tab:hover:not(.on) { background: var(--s2); color: var(--t1) }
+    .cs-loading { padding: 20px; text-align: center; color: var(--t3); font-size: 12px }
+
     .couple-members {
       display: flex;
       flex-direction: column;
@@ -1744,6 +1780,112 @@
             </button>
           </div>
 
+          <!-- Resumo financeiro do casal (só aparece quando vinculado) -->
+          <div class="couple-section" id="couple-resumo-section" style="display:none">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+              <div class="couple-section-title" style="margin-bottom:0">Resumo Financeiro</div>
+              <div class="cs-tab-row" style="margin-bottom:0">
+                <button class="cs-tab on" id="cs-tab-mes" onclick="csTab('mes')">Este mês</button>
+                <button class="cs-tab" id="cs-tab-tudo" onclick="csTab('tudo')">Tudo</button>
+              </div>
+            </div>
+
+            <!-- Geral do casal -->
+            <div class="couple-summary-grid">
+              <div class="cs-col cs-joint-row">
+                <div class="cs-col-header">
+                  <div class="cs-col-avatar joint">💑</div>
+                  <div class="cs-col-name">Geral do Casal</div>
+                </div>
+                <div class="cs-joint-stats">
+                  <div class="cs-joint-stat">
+                    <div class="cs-joint-stat-label">↑ Entradas</div>
+                    <div class="cs-joint-stat-val" id="cs-j-in" style="color:var(--green)">—</div>
+                    <div class="cs-joint-stat-sub" id="cs-j-in-c">—</div>
+                  </div>
+                  <div class="cs-joint-stat">
+                    <div class="cs-joint-stat-label">↓ Saídas</div>
+                    <div class="cs-joint-stat-val" id="cs-j-out" style="color:var(--red)">—</div>
+                    <div class="cs-joint-stat-sub" id="cs-j-out-c">—</div>
+                  </div>
+                  <div class="cs-joint-stat">
+                    <div class="cs-joint-stat-label">⬡ Saldo</div>
+                    <div class="cs-joint-stat-val" id="cs-j-bal" style="color:var(--t1)">—</div>
+                    <div class="cs-joint-stat-sub">Entradas − Saídas</div>
+                  </div>
+                  <div class="cs-joint-stat">
+                    <div class="cs-joint-stat-label">⚡ Fixos</div>
+                    <div class="cs-joint-stat-val" id="cs-j-fix" style="color:var(--yellow)">—</div>
+                    <div class="cs-joint-stat-sub" id="cs-j-fix-c">—</div>
+                  </div>
+                </div>
+                <!-- Top categorias do casal -->
+                <div style="padding:0 16px 4px;font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--t3)">Top Categorias</div>
+                <div class="cs-cat-list" id="cs-j-cats"><div class="cs-loading">Carregando...</div></div>
+              </div>
+
+              <!-- Coluna: Eu -->
+              <div class="cs-col">
+                <div class="cs-col-header">
+                  <div class="cs-col-avatar me" id="cs-me-av">—</div>
+                  <div class="cs-col-name" id="cs-me-name">Você</div>
+                  <span class="cs-col-you">Você</span>
+                </div>
+                <div class="cs-stats">
+                  <div class="cs-stat-row">
+                    <div class="cs-stat-label">↑ Entradas</div>
+                    <div class="cs-stat-val green" id="cs-me-in">—</div>
+                  </div>
+                  <div class="cs-divider"></div>
+                  <div class="cs-stat-row">
+                    <div class="cs-stat-label">↓ Saídas</div>
+                    <div class="cs-stat-val red" id="cs-me-out">—</div>
+                  </div>
+                  <div class="cs-divider"></div>
+                  <div class="cs-stat-row">
+                    <div class="cs-stat-label">⬡ Saldo</div>
+                    <div class="cs-stat-val neutral" id="cs-me-bal">—</div>
+                  </div>
+                  <div class="cs-divider"></div>
+                  <div class="cs-stat-row">
+                    <div class="cs-stat-label">% do total</div>
+                    <div class="cs-stat-val neutral" id="cs-me-pct">—</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Coluna: Parceiro -->
+              <div class="cs-col">
+                <div class="cs-col-header">
+                  <div class="cs-col-avatar partner" id="cs-pt-av">—</div>
+                  <div class="cs-col-name" id="cs-pt-name">Parceiro(a)</div>
+                </div>
+                <div class="cs-stats">
+                  <div class="cs-stat-row">
+                    <div class="cs-stat-label">↑ Entradas</div>
+                    <div class="cs-stat-val green" id="cs-pt-in">—</div>
+                  </div>
+                  <div class="cs-divider"></div>
+                  <div class="cs-stat-row">
+                    <div class="cs-stat-label">↓ Saídas</div>
+                    <div class="cs-stat-val red" id="cs-pt-out">—</div>
+                  </div>
+                  <div class="cs-divider"></div>
+                  <div class="cs-stat-row">
+                    <div class="cs-stat-label">⬡ Saldo</div>
+                    <div class="cs-stat-val neutral" id="cs-pt-bal">—</div>
+                  </div>
+                  <div class="cs-divider"></div>
+                  <div class="cs-stat-row">
+                    <div class="cs-stat-label">% do total</div>
+                    <div class="cs-stat-val neutral" id="cs-pt-pct">—</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
           <!-- Meu código (sempre visível) -->
           <div class="couple-section">
             <div class="couple-section-title">Meu código de vínculo</div>
@@ -2119,6 +2261,7 @@
         const { data: membros } = await db.from('profiles').select('id, email, whatsapp').eq('household_id', hid);
         renderizarMembros(membros || [], hid);
         atualizarStatusCasal(true);
+        carregarResumoCasal();
       } else {
         // Verificar se alguém se vinculou a mim (household_id = meu id)
         const { data: membros } = await db.from('profiles').select('id, email, whatsapp').eq('household_id', currentUser.id);
@@ -2127,6 +2270,7 @@
           householdId = currentUser.id;
           renderizarMembros(membros, currentUser.id);
           atualizarStatusCasal(true);
+          carregarResumoCasal();
         } else {
           atualizarStatusCasal(false);
         }
@@ -2139,6 +2283,7 @@
       const sub = document.getElementById('couple-status-sub');
       const badge = document.getElementById('couple-status-badge');
       const membersSection = document.getElementById('couple-members-section');
+      const resumoSection = document.getElementById('couple-resumo-section');
       const linkSection = document.getElementById('couple-link-section');
       const sharedPill = document.getElementById('shared-pill');
       const casalBadge = document.getElementById('casal-badge');
@@ -2150,6 +2295,7 @@
         sub.textContent = 'Vocês compartilham o mesmo orçamento';
         badge.style.display = 'block';
         membersSection.style.display = 'block';
+        resumoSection.style.display = 'block';
         linkSection.style.display = 'none';
         sharedPill.style.display = 'flex';
         casalBadge.style.display = 'block';
@@ -2160,6 +2306,7 @@
         sub.textContent = 'Vincule um parceiro para compartilhar o orçamento';
         badge.style.display = 'none';
         membersSection.style.display = 'none';
+        resumoSection.style.display = 'none';
         linkSection.style.display = 'block';
         sharedPill.style.display = 'none';
         casalBadge.style.display = 'none';
@@ -2181,6 +2328,122 @@
           ${isMe ? '<span class="couple-member-you">Você</span>' : ''}
         </div>`;
       }).join('');
+
+      // Atualiza avatares no resumo
+      const me = membros.find(m => m.id === currentUser.id);
+      const partner = membros.find(m => m.id !== currentUser.id);
+      if (me) {
+        document.getElementById('cs-me-av').textContent = (me.email || '?').slice(0, 2).toUpperCase();
+        document.getElementById('cs-me-name').textContent = me.email?.split('@')[0] || 'Você';
+      }
+      if (partner) {
+        document.getElementById('cs-pt-av').textContent = (partner.email || '?').slice(0, 2).toUpperCase();
+        document.getElementById('cs-pt-name').textContent = partner.email?.split('@')[0] || 'Parceiro(a)';
+      }
+    }
+
+    // ── RESUMO DO CASAL ───────────────────────────────────────
+    let csFiltro = 'mes'; // 'mes' | 'tudo'
+
+    function csTab(tab) {
+      csFiltro = tab;
+      document.getElementById('cs-tab-mes').className = 'cs-tab' + (tab === 'mes' ? ' on' : '');
+      document.getElementById('cs-tab-tudo').className = 'cs-tab' + (tab === 'tudo' ? ' on' : '');
+      carregarResumoCasal();
+    }
+
+    async function carregarResumoCasal() {
+      if (!currentUser) return;
+      const hid = householdId || currentUser.id;
+      if (hid === currentUser.id) return; // individual, sem parceiro
+
+      const mes = document.getElementById('mes-sel').value;
+      let q = db.from('transactions').select('amount,type,category,is_fixed,user_id').eq('household_id', hid);
+
+      if (csFiltro === 'mes') {
+        // Usa o mês selecionado no topo, ou mês atual se for 'all'
+        let y, m;
+        if (mes !== 'all') {
+          [y, m] = mes.split('-');
+        } else {
+          const now = new Date();
+          y = now.getFullYear();
+          m = String(now.getMonth() + 1).padStart(2, '0');
+        }
+        const ini = `${y}-${m}-01`;
+        const fim = new Date(+y, +m, 0).toISOString().split('T')[0];
+        q = q.gte('date', ini).lte('date', fim);
+      }
+
+      const { data, error } = await q;
+      if (error) return;
+
+      const txs = data || [];
+      const myId = currentUser.id;
+
+      const meIn   = txs.filter(t => t.user_id === myId && t.type === 'income').reduce((s,t) => s + +t.amount, 0);
+      const meOut  = txs.filter(t => t.user_id === myId && t.type === 'expense').reduce((s,t) => s + +t.amount, 0);
+      const ptIn   = txs.filter(t => t.user_id !== myId && t.type === 'income').reduce((s,t) => s + +t.amount, 0);
+      const ptOut  = txs.filter(t => t.user_id !== myId && t.type === 'expense').reduce((s,t) => s + +t.amount, 0);
+      const jIn    = meIn + ptIn;
+      const jOut   = meOut + ptOut;
+      const jBal   = jIn - jOut;
+      const jFix   = txs.filter(t => t.is_fixed).reduce((s,t) => s + +t.amount, 0);
+      const jFixC  = txs.filter(t => t.is_fixed).length;
+      const jInC   = txs.filter(t => t.type === 'income').length;
+      const jOutC  = txs.filter(t => t.type === 'expense').length;
+
+      // Pct de gastos
+      const mePct = jOut > 0 ? Math.round((meOut / jOut) * 100) : 0;
+      const ptPct = jOut > 0 ? Math.round((ptOut / jOut) * 100) : 0;
+
+      document.getElementById('cs-j-in').textContent  = fmt(jIn);
+      document.getElementById('cs-j-in-c').textContent  = `${jInC} entrada${jInC !== 1 ? 's' : ''}`;
+      document.getElementById('cs-j-out').textContent = fmt(jOut);
+      document.getElementById('cs-j-out-c').textContent = `${jOutC} saída${jOutC !== 1 ? 's' : ''}`;
+      document.getElementById('cs-j-fix').textContent = fmt(jFix);
+      document.getElementById('cs-j-fix-c').textContent = `${jFixC} fixo${jFixC !== 1 ? 's' : ''}`;
+
+      const balEl = document.getElementById('cs-j-bal');
+      balEl.textContent = fmt(Math.abs(jBal));
+      balEl.style.color = jBal >= 0 ? 'var(--green)' : 'var(--red)';
+
+      document.getElementById('cs-me-in').textContent  = fmt(meIn);
+      document.getElementById('cs-me-out').textContent = fmt(meOut);
+      const meBal = meIn - meOut;
+      const meBEl = document.getElementById('cs-me-bal');
+      meBEl.textContent = fmt(Math.abs(meBal));
+      meBEl.style.color = meBal >= 0 ? 'var(--green)' : 'var(--red)';
+      document.getElementById('cs-me-pct').textContent = mePct + '% das saídas';
+
+      document.getElementById('cs-pt-in').textContent  = fmt(ptIn);
+      document.getElementById('cs-pt-out').textContent = fmt(ptOut);
+      const ptBal = ptIn - ptOut;
+      const ptBEl = document.getElementById('cs-pt-bal');
+      ptBEl.textContent = fmt(Math.abs(ptBal));
+      ptBEl.style.color = ptBal >= 0 ? 'var(--green)' : 'var(--red)';
+      document.getElementById('cs-pt-pct').textContent = ptPct + '% das saídas';
+
+      // Categorias do casal
+      const expenses = txs.filter(t => t.type === 'expense');
+      const cs = {};
+      expenses.forEach(t => { const c = t.category || 'outros'; cs[c] = (cs[c] || 0) + +t.amount; });
+      const total = Object.values(cs).reduce((s,v) => s + v, 0);
+      const sorted = Object.entries(cs).sort((a,b) => b[1]-a[1]).slice(0,6);
+      const catsEl = document.getElementById('cs-j-cats');
+      if (!sorted.length) {
+        catsEl.innerHTML = '<div class="cs-loading">Sem saídas no período</div>';
+      } else {
+        catsEl.innerHTML = sorted.map(([cat, val], i) => {
+          const pct = total > 0 ? Math.round((val/total)*100) : 0;
+          return `<div class="cs-cat-item">
+            <div class="cs-cat-dot" style="background:${CORES[i % CORES.length]}"></div>
+            <div class="cs-cat-name">${CAT[cat] || cat}</div>
+            <div class="cs-cat-bar-wrap"><div class="cs-cat-bar-fill" style="width:${pct}%;background:${CORES[i%CORES.length]}"></div></div>
+            <div class="cs-cat-val">${fmt(val)}</div>
+          </div>`;
+        }).join('');
+      }
     }
 
     async function vincularCasal() {
@@ -2253,11 +2516,21 @@
       if (!confirm('Desvincular o casal? Cada um voltará a ver apenas suas próprias transações.')) return;
 
       try {
-        // Restaura household_id para o próprio id (volta a ser individual)
-        const { error } = await db.from('profiles')
-          .update({ household_id: currentUser.id })
-          .eq('id', currentUser.id);
-        if (error) throw error;
+        const hid = householdId || currentUser.id;
+
+        // Busca TODOS os membros do household atual (inclui o parceiro)
+        const { data: membros, error: errBusca } = await db.from('profiles')
+          .select('id')
+          .eq('household_id', hid);
+        if (errBusca) throw errBusca;
+
+        // Reseta o household_id de CADA membro para o próprio id individualmente
+        for (const membro of (membros || [])) {
+          const { error } = await db.from('profiles')
+            .update({ household_id: membro.id })
+            .eq('id', membro.id);
+          if (error) throw error;
+        }
 
         householdId = currentUser.id;
         toast('Desvinculado com sucesso', 'ok');
