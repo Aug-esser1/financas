@@ -1477,6 +1477,267 @@
       color: var(--red);
       border-color: var(--red)
     }
+
+    /* ══════════════════════════════════════════
+       MOBILE-FIRST RESPONSIVE
+       Base = mobile. Desktop = @media(min-width:768px)
+    ══════════════════════════════════════════ */
+
+    /* ── BOTTOM NAV (mobile) ── */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--s1);
+      border-top: 1px solid var(--b1);
+      z-index: 90;
+      padding: 0 4px;
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    .bottom-nav-inner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      height: 58px
+    }
+
+    .bnav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      background: none;
+      border: none;
+      color: var(--t3);
+      font-family: var(--f);
+      font-size: 10px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color .12s;
+      padding: 6px 0;
+      position: relative
+    }
+
+    .bnav-item svg {
+      width: 20px; height: 20px
+    }
+
+    .bnav-item.active {
+      color: var(--accent)
+    }
+
+    .bnav-dot {
+      position: absolute;
+      top: 6px; right: 28%;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 5px var(--green);
+      display: none
+    }
+
+    /* FAB (mobile) */
+    .fab {
+      display: none;
+      position: fixed;
+      bottom: 74px; right: 18px;
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: none;
+      color: #fff;
+      font-size: 26px;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(124,106,255,.5);
+      z-index: 91;
+      transition: transform .15s, box-shadow .15s;
+      align-items: center;
+      justify-content: center
+    }
+
+    .fab:active {
+      transform: scale(.93);
+      box-shadow: 0 2px 8px rgba(124,106,255,.4)
+    }
+
+    @media (max-width: 767px) {
+
+      body {
+        overflow: auto;
+        flex-direction: column
+      }
+
+      /* Hide sidebar on mobile */
+      .sb { display: none }
+
+      /* Show bottom nav & FAB */
+      .bottom-nav { display: block }
+      .fab { display: flex }
+
+      /* Toast moves above bottom nav */
+      .toasts { bottom: 74px; right: 12px; left: 12px }
+      .toast { font-size: 13px }
+
+      /* Topbar adjustments */
+      .topbar {
+        padding: 10px 14px;
+        gap: 8px
+      }
+
+      .topbar-title { font-size: 14px }
+
+      .topbar-right {
+        gap: 6px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        max-width: calc(100vw - 120px)
+      }
+
+      /* Hide less-critical topbar items on mobile */
+      #shared-pill { display: none !important }
+      #user-badge { display: none !important }
+      .logout-btn { display: none }
+
+      /* Move month selector to be compact */
+      select.sel {
+        font-size: 12px;
+        padding: 5px 22px 5px 8px;
+        max-width: 110px
+      }
+
+      /* Content */
+      .content {
+        padding: 14px 12px;
+        padding-bottom: 80px
+      }
+
+      /* Summary cards: 2-col grid */
+      .summary {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 14px
+      }
+
+      .card {
+        padding: 12px 14px
+      }
+
+      .card-val {
+        font-size: 17px
+      }
+
+      .card-label {
+        font-size: 9.5px
+      }
+
+      /* Mid section: stack vertically */
+      .mid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 14px
+      }
+
+      /* Chart smaller on mobile */
+      .chart {
+        height: 130px
+      }
+
+      /* Table toolbar: stack filters + search */
+      .ttoolbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 10px 12px
+      }
+
+      .filters { gap: 5px }
+
+      .chip {
+        padding: 4px 9px;
+        font-size: 11px
+      }
+
+      .search {
+        width: 100%;
+        font-size: 13px;
+        padding: 7px 10px
+      }
+
+      /* Table: show only essential columns */
+      thead th:nth-child(2),
+      thead th:nth-child(3),
+      thead th:nth-child(4),
+      tbody td:nth-child(2),
+      tbody td:nth-child(3),
+      tbody td:nth-child(4) {
+        display: none
+      }
+
+      tbody td {
+        padding: 10px 12px;
+        font-size: 12.5px
+      }
+
+      .amt { font-size: 12.5px }
+
+      /* Modal full-screen on mobile */
+      .overlay {
+        align-items: flex-end
+      }
+
+      .modal {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 20px 20px 0 0;
+        max-height: 92vh;
+        padding: 20px 18px
+      }
+
+      .fgrid {
+        grid-template-columns: 1fr
+      }
+
+      .fg.full { grid-column: 1 }
+
+      .mfooter {
+        position: sticky;
+        bottom: 0;
+        background: var(--s1);
+        padding: 14px 0 4px;
+        margin-top: 14px
+      }
+
+      /* Auth box */
+      .auth-box {
+        width: 100%;
+        border-radius: 0;
+        min-height: 100vh;
+        padding: 40px 24px
+      }
+
+      /* Casal panel */
+      .couple-panel { padding: 0 0 80px }
+
+      .couple-summary-grid {
+        grid-template-columns: 1fr
+      }
+
+      .cs-joint-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px
+      }
+
+      .couple-code-val { font-size: 18px }
+
+    }
+
+    /* ── DESKTOP enhancements ── */
+    @media (min-width: 768px) {
+      .bottom-nav { display: none !important }
+      .fab { display: none !important }
+    }
   </style>
 </head>
 
@@ -2767,5 +3028,62 @@
       setTimeout(() => el.remove(), 3500);
     }
   </script>
+
+  <!-- BOTTOM NAV (mobile only) -->
+  <nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <button class="bnav-item active" id="bnav-dashboard" onclick="goTo('dashboard');setBnav('dashboard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        Dashboard
+      </button>
+      <button class="bnav-item" id="bnav-transactions" onclick="goTo('transactions');setBnav('transactions')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+        </svg>
+        Transações
+      </button>
+      <button class="bnav-item" id="bnav-casal" onclick="goTo('casal');setBnav('casal')">
+        <div class="bnav-dot" id="bnav-casal-dot"></div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+        Casal
+      </button>
+      <button class="bnav-item" onclick="fazerLogout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
+        </svg>
+        Sair
+      </button>
+    </div>
+  </nav>
+
+  <!-- FAB (mobile only) -->
+  <button class="fab" onclick="abrirModal()" aria-label="Nova transação">+</button>
+
+  <script>
+    function setBnav(view) {
+      document.querySelectorAll('.bnav-item').forEach(b => b.classList.remove('active'));
+      const el = document.getElementById('bnav-' + view);
+      if (el) el.classList.add('active');
+    }
+
+    // Sync casal badge to bottom nav dot
+    const _casalBadge = document.getElementById('casal-badge');
+    if (_casalBadge) {
+      const obs = new MutationObserver(() => {
+        const dot = document.getElementById('bnav-casal-dot');
+        if (dot) dot.style.display = _casalBadge.style.display === 'none' ? 'none' : 'block';
+      });
+      obs.observe(_casalBadge, { attributes: true, attributeFilter: ['style'] });
+    }
+  </script>
+
 </body>
 </html>
