@@ -2437,6 +2437,42 @@
       checarConexao();
       carregarDados();
       carregarCasal();
+      escutarTransacoes();
+    }
+
+    // ── REALTIME ──────────────────────────────────────────────
+    let _realtimeChannel = null;
+
+    function escutarTransacoes() {
+      // Remove canal anterior se existir (evita duplicatas ao reconectar)
+      if (_realtimeChannel) {
+        db.removeChannel(_realtimeChannel);
+        _realtimeChannel = null;
+      }
+
+      const hid = householdId || currentUser?.id;
+      if (!hid) return;
+
+      _realtimeChannel = db.channel('transactions-realtime-' + hid)
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'transactions',
+            filter: `household_id=eq.${hid}`
+          },
+          (payload) => {
+            console.log('[Realtime] Mudança detectada:', payload.eventType, payload.new || payload.old);
+            carregarDados();
+          }
+        )
+        .subscribe((status) => {
+          console.log('[Realtime] Status:', status);
+          if (status === 'SUBSCRIBED') {
+            setConn(true, 'Supabase • Realtime ativo');
+          }
+        });
     }
 
     // ── INIT ──────────────────────────────────────────────────
