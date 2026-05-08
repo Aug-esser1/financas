@@ -2519,23 +2519,22 @@
         const mes = document.getElementById('mes-sel').value;
         const hid = householdId || currentUser.id;
         const uid = currentUser.id;
+        const isCouple = hid !== uid;
 
-        // Busca ampla: pega qualquer transação que pertença ao usuário
-        // seja por user_id, household_id, ou ambos — cobre bots que
-        // salvam só com user_id e sem household_id
         let q;
-        if (hid !== uid) {
-          // Casal vinculado: household_id compartilhado OU user_id próprio
+        if (isCouple) {
+          // Modo casal: busca todas as transações do household compartilhado
           q = db.from('transactions')
             .select('*')
-            .or(`household_id.eq.${hid},user_id.eq.${uid}`)
+            .eq('household_id', hid)
             .order('date', { ascending: false })
             .order('created_at', { ascending: false });
         } else {
-          // Conta individual: qualquer registro com user_id = eu, OU household_id = meu id
+          // Modo individual: busca SOMENTE pelo user_id do usuário logado
+          // Não usa household_id para evitar ver transações de ex-parceiros
           q = db.from('transactions')
             .select('*')
-            .or(`user_id.eq.${uid},household_id.eq.${uid}`)
+            .eq('user_id', uid)
             .order('date', { ascending: false })
             .order('created_at', { ascending: false });
         }
