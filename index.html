@@ -1949,7 +1949,7 @@
                 <span><span class="leg-dot" style="background:var(--red)"></span> Saída</span>
               </div>
             </div>
-            <div class="chart" id="chart-area" style="flex:1;min-height:0">
+            <div class="chart" id="chart-area">
               <div style="width:100%;display:flex;align-items:center;justify-content:center;color:var(--t3);font-size:12px">
                 <div class="spin"></div>
               </div>
@@ -2852,8 +2852,7 @@
         return;
       }
       const max = Math.max(...meses.map(m => Math.max(byM[m].i, byM[m].o)), 1);
-      const chartEl = document.getElementById('chart-area');
-      const H = Math.min(chartEl ? chartEl.clientHeight - 16 : 140, 140);
+      const H = 130;
       document.getElementById('chart-area').innerHTML = meses.map(m => {
         const iH = Math.max(Math.round((byM[m].i / max) * H), 3);
         const oH = Math.max(Math.round((byM[m].o / max) * H), 3);
