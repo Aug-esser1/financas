@@ -2205,7 +2205,7 @@
         </div>
         <div class="fg">
           <div class="flabel">Valor (R$) *</div>
-          <input class="finput" type="number" id="f-val" placeholder="0,00" step="0.01" min="0">
+          <input class="finput" type="number" id="f-val" placeholder="0,00" step="0.01" min="0" oninput="if(document.getElementById('f-parcelado').checked) atualizarPreviewParcela()">
         </div>
         <div class="fg">
           <div class="flabel">Data *</div>
@@ -2239,6 +2239,30 @@
         <div class="check-row">
           <input type="checkbox" id="f-fixo">
           <label for="f-fixo">Gasto / Receita Fixo Mensal</label>
+        </div>
+        <div class="check-row">
+          <input type="checkbox" id="f-parcelado" onchange="toggleParcelas()">
+          <label for="f-parcelado">Parcelado</label>
+        </div>
+        <div class="fg" id="fg-parcelas" style="display:none">
+          <div class="flabel">Número de parcelas</div>
+          <select class="fsel" id="f-parcelas">
+            <option value="2">2x</option>
+            <option value="3">3x</option>
+            <option value="4">4x</option>
+            <option value="5">5x</option>
+            <option value="6">6x</option>
+            <option value="7">7x</option>
+            <option value="8">8x</option>
+            <option value="9">9x</option>
+            <option value="10">10x</option>
+            <option value="11">11x</option>
+            <option value="12">12x</option>
+          </select>
+        </div>
+        <div class="fg" id="fg-parcela-val" style="display:none">
+          <div class="flabel">Valor por parcela</div>
+          <div class="finput" style="background:var(--s3);cursor:default;color:var(--t2)" id="f-parcela-preview">—</div>
         </div>
         <div class="fg full">
           <div class="flabel">Observação (opcional)</div>
@@ -2941,8 +2965,10 @@
       const dt = d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' });
       const src = t.source === 'whatsapp' ? `<span style="font-size:10px;margin-left:3px;opacity:.6">📱</span>` : '';
       const del = comDel ? `<td><button class="del-btn" onclick="deletar('${t.id}')">✕</button></td>` : '';
+      const parcBadge = t.installment_total ? `<div class="tx-sub" style="color:var(--accent)">💳 Parcela ${t.installment_current}/${t.installment_total}</div>` : '';
+      const notasSub = t.notes && !t.installment_total ? `<div class="tx-sub">${t.notes}</div>` : '';
       return `<tr>
-    <td><div class="tx-name">${t.description}${src}</div>${t.is_fixed ? '<div class="tx-sub">⚡ Fixo</div>' : ''}${t.notes ? `<div class="tx-sub">${t.notes}</div>` : ''}</td>
+    <td><div class="tx-name">${t.description}${src}</div>${t.is_fixed ? '<div class="tx-sub">⚡ Fixo</div>' : ''}${parcBadge}${notasSub}</td>
     <td><span class="badge ${isIn ? 'b-in' : 'b-out'}">${isIn ? '↑ Entrada' : '↓ Saída'}</span></td>
     <td style="font-size:12px;color:var(--t2)">${CAT[t.category] || t.category}</td>
     <td><span class="badge ${PAG_B[t.payment_method] || 'b-ot'}">${PAG[t.payment_method] || t.payment_method}</span></td>
@@ -3024,28 +3050,63 @@
       const pag = document.getElementById('f-pag').value;
       const fixo = document.getElementById('f-fixo').checked;
       const obs = document.getElementById('f-obs').value.trim();
+      const parcelado = document.getElementById('f-parcelado').checked;
+      const numParcelas = parcelado ? parseInt(document.getElementById('f-parcelas').value) : 1;
 
       if (!desc) { toast('Preencha a descrição', 'er'); return; }
       if (!val || val <= 0) { toast('Valor deve ser maior que zero', 'er'); return; }
       if (!data) { toast('Selecione a data', 'er'); return; }
 
       const hid = householdId || currentUser.id;
+      const valorParcela = parcelado ? Math.round((val / numParcelas) * 100) / 100 : val;
+      const installmentId = parcelado ? crypto.randomUUID() : null;
+
       try {
-        const { error } = await db.from('transactions').insert([{
-          description: desc, amount: val, type: tipo, date: data,
-          category: cat, payment_method: pag, is_fixed: fixo,
-          notes: obs || null, source: 'manual',
-          user_id: currentUser.id,
-          household_id: hid
-        }]);
+        const registros = [];
+        for (let i = 0; i < numParcelas; i++) {
+          const d = new Date(data + 'T12:00:00');
+          d.setMonth(d.getMonth() + i);
+          const dateStr = d.toISOString().split('T')[0];
+          registros.push({
+            description: desc,
+            amount: valorParcela,
+            type: tipo,
+            date: dateStr,
+            category: cat,
+            payment_method: pag,
+            is_fixed: false,
+            notes: parcelado ? `Parcela ${i + 1}/${numParcelas}` : (obs || null),
+            source: 'manual',
+            user_id: currentUser.id,
+            household_id: hid,
+            installment_id: installmentId,
+            installment_current: parcelado ? i + 1 : null,
+            installment_total: parcelado ? numParcelas : null
+          });
+        }
+        const { error } = await db.from('transactions').insert(registros);
         if (error) throw error;
         fecharModal();
         resetarForm();
-        toast('Transação salva!', 'ok');
+        toast(parcelado ? `${numParcelas} parcelas salvas!` : 'Transação salva!', 'ok');
         await carregarDados();
       } catch (e) {
         toast('Erro: ' + e.message, 'er');
       }
+    }
+
+    function toggleParcelas() {
+      const checked = document.getElementById('f-parcelado').checked;
+      document.getElementById('fg-parcelas').style.display = checked ? '' : 'none';
+      document.getElementById('fg-parcela-val').style.display = checked ? '' : 'none';
+      if (checked) atualizarPreviewParcela();
+    }
+
+    function atualizarPreviewParcela() {
+      const val = parseFloat(document.getElementById('f-val').value) || 0;
+      const n = parseInt(document.getElementById('f-parcelas').value) || 1;
+      const parcela = val > 0 ? (val / n).toFixed(2).replace('.', ',') : '—';
+      document.getElementById('f-parcela-preview').textContent = val > 0 ? `R$ ${parcela}` : '—';
     }
 
     function resetarForm() {
@@ -3053,6 +3114,10 @@
       document.getElementById('f-val').value = '';
       document.getElementById('f-obs').value = '';
       document.getElementById('f-fixo').checked = false;
+      document.getElementById('f-parcelado').checked = false;
+      document.getElementById('fg-parcelas').style.display = 'none';
+      document.getElementById('fg-parcela-val').style.display = 'none';
+      document.getElementById('f-parcelas').value = '2';
       document.getElementById('f-data').valueAsDate = new Date();
       selTipo('expense');
     }
