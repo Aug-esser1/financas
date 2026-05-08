@@ -2441,38 +2441,36 @@
     }
 
     // ── REALTIME ──────────────────────────────────────────────
-    let _realtimeChannel = null;
+    let _realtimeChannels = [];
 
     function escutarTransacoes() {
-      // Remove canal anterior se existir (evita duplicatas ao reconectar)
-      if (_realtimeChannel) {
-        db.removeChannel(_realtimeChannel);
-        _realtimeChannel = null;
-      }
+      // Remove canais anteriores
+      _realtimeChannels.forEach(ch => db.removeChannel(ch));
+      _realtimeChannels = [];
 
-      const hid = householdId || currentUser?.id;
-      if (!hid) return;
+      const uid = currentUser?.id;
+      const hid = householdId || uid;
+      if (!uid) return;
 
-      _realtimeChannel = db.channel('transactions-realtime-' + hid)
-        .on(
-          'postgres_changes',
-          {
-            event: '*',
-            schema: 'public',
-            table: 'transactions',
-            filter: `household_id=eq.${hid}`
-          },
-          (payload) => {
-            console.log('[Realtime] Mudança detectada:', payload.eventType, payload.new || payload.old);
-            carregarDados();
-          }
-        )
-        .subscribe((status) => {
-          console.log('[Realtime] Status:', status);
-          if (status === 'SUBSCRIBED') {
-            setConn(true, 'Supabase • Realtime ativo');
-          }
+      // Canal 1: escuta por user_id — cobre bots que salvam sem household_id
+      const ch1 = db.channel('rt-userid-' + uid)
+        .on('postgres_changes', {
+          event: '*', schema: 'public', table: 'transactions',
+          filter: 'user_id=eq.' + uid
+        }, () => carregarDados())
+        .subscribe((s) => {
+          if (s === 'SUBSCRIBED') setConn(true, 'Supabase • Realtime ativo');
         });
+
+      // Canal 2: escuta por household_id — cobre inserts do casal/manual
+      const ch2 = db.channel('rt-household-' + hid)
+        .on('postgres_changes', {
+          event: '*', schema: 'public', table: 'transactions',
+          filter: 'household_id=eq.' + hid
+        }, () => carregarDados())
+        .subscribe();
+
+      _realtimeChannels = [ch1, ch2];
     }
 
     // ── INIT ──────────────────────────────────────────────────
@@ -2514,22 +2512,32 @@
       document.getElementById('conn-txt').textContent = txt;
     }
 
-    // ── LOAD DATA (usa household_id quando disponível) ────────
+    // ── LOAD DATA ─────────────────────────────────────────────
     async function carregarDados() {
       try {
         if (!currentUser) return;
         const mes = document.getElementById('mes-sel').value;
         const hid = householdId || currentUser.id;
+        const uid = currentUser.id;
 
-        // Se há household compartilhado (diferente do próprio id), busca por household_id
-        // Caso contrário busca por user_id (compatibilidade com registros antigos)
-        const isShared = hid !== currentUser.id;
+        // Busca ampla: pega qualquer transação que pertença ao usuário
+        // seja por user_id, household_id, ou ambos — cobre bots que
+        // salvam só com user_id e sem household_id
         let q;
-        if (isShared) {
-          q = db.from('transactions').select('*').eq('household_id', hid).order('date', { ascending: false }).order('created_at', { ascending: false });
+        if (hid !== uid) {
+          // Casal vinculado: household_id compartilhado OU user_id próprio
+          q = db.from('transactions')
+            .select('*')
+            .or(`household_id.eq.${hid},user_id.eq.${uid}`)
+            .order('date', { ascending: false })
+            .order('created_at', { ascending: false });
         } else {
-          // Busca tanto por user_id quanto por household_id = próprio id
-          q = db.from('transactions').select('*').or(`user_id.eq.${currentUser.id},household_id.eq.${currentUser.id}`).order('date', { ascending: false }).order('created_at', { ascending: false });
+          // Conta individual: qualquer registro com user_id = eu, OU household_id = meu id
+          q = db.from('transactions')
+            .select('*')
+            .or(`user_id.eq.${uid},household_id.eq.${uid}`)
+            .order('date', { ascending: false })
+            .order('created_at', { ascending: false });
         }
 
         if (mes !== 'all') {
@@ -2538,6 +2546,7 @@
           const fim = new Date(+y, +m, 0).toISOString().split('T')[0];
           q = q.gte('date', ini).lte('date', fim);
         }
+
         const { data, error } = await q;
         if (error) throw error;
         todos = data || [];
